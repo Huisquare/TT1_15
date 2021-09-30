@@ -7,41 +7,40 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 
 const Home = () => {
   return (
     <div>
       <h1>All Products</h1>
-      {products.map((product) => {
-        return (
-          <Card sx={{ maxWidth: 345 }}>
-            <CardHeader title={product.title} />
-            <CardMedia
-              component="img"
-              alt={product.title}
-              height="140"
-              image={product.image}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {product.description}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Add To Cart</Button>
-            </CardActions>
-          </Card>
-          /*  <div key={product.id}>
-            <h3>{product.title}</h3>
-            <img src={product.image} />
-            <p>{product.description}</p>
-            <p>${product.price}</p>
-            <p>
-              <button>Add to Cart</button>
-            </p>
-          </div> */
-        );
-      })}
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2}>
+          {products.map((product) => {
+            return (
+              <Card sx={{ maxWidth: 345 }}>
+                <CardHeader title={product.title} />
+                <CardMedia
+                  component="img"
+                  alt={product.title}
+                  height="140"
+                  image={product.image}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {product.description}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small">Add To Cart</Button>
+                </CardActions>
+              </Card>
+            );
+          })}
+        </Grid>
+      </Box>
     </div>
   );
 };
