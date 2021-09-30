@@ -95,6 +95,19 @@ const listener = app.listen(process.env.PORT || 4000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
 
+app.get("/viewProducts", (req, res) => {
+	db.products.find({}).then(products => {
+		res.send(products);
+	})
+})
+
+app.get("/viewCategories", (req, res) => {
+	db.categories.find({}).then(categories => {
+		res.send(categories);
+	})
+})
+
+
 
 /*
 let cart = sessionStorage /* Cart would be session storage*/
