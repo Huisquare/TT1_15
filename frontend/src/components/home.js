@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import products from "../products.json";
 import { Col, Card, Row, Button } from "react-bootstrap";
+import './home.css';
 
 const Home = () => {
   const addToCart = (id) => {
@@ -19,9 +20,9 @@ const Home = () => {
         {products.map((product) => {
           return (
             <Col>
-              <cardStyle>
-                <Card key={product.id}>
-                  <Card.Img variant="top" src={product.image} />
+              <cardStyle >
+                <Card key={product.id} className = "card">
+                  <Card.Img variant="top" src={product.image} className="img"/>
                   <Card.Body>
                     <Card.Title>{product.title}</Card.Title>
                     <Card.Text>{product.description}</Card.Text>
