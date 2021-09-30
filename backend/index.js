@@ -91,6 +91,11 @@ app.post("create", (req, res) => {
   })
 })
 
+const listener = app.listen(process.env.PORT || 4000, () => {
+  console.log('Your app is listening on port ' + listener.address().port)
+})
+
+
 /*
 let cart = sessionStorage /* Cart would be session storage*/
 
