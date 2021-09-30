@@ -157,3 +157,20 @@ app.get("/view/categories", (req, res) => {
   res.send(cat);
   });
  })
+
+ 
+ const data = require("./categories.json");
+
+ /*return categories*/
+ app.get("/categories", (req, res) => {
+     res.header("Content-Type", "application/json");
+     res.send(JSON.stringify(data));
+ });
+
+ const productData = require("./products.json");
+
+ /*return products*/
+ app.get("/products", (req, res) => {
+     res.header("Content-Type", "application/json");
+     res.send(JSON.stringify(productData));
+ });
