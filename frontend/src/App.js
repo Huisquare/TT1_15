@@ -33,9 +33,9 @@ function App() {
   }, []);
   console.log(products);
 
-  /* if (!token) {
+  if (!token) {
     return <Login setToken={setToken} />;
-  } */
+  }
 
   return (
     <div className="App">
@@ -45,7 +45,9 @@ function App() {
           <Route exact path="/">
             <Home products={products} />
           </Route>
-          <Route path="/cart" component={ShoppingCart}></Route>
+          <Route path="/cart">
+            <ShoppingCart products={products} />
+          </Route>
         </Switch>
       </Router>
     </div>

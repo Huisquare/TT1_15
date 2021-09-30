@@ -8,10 +8,10 @@ const Login = () => {
 
   async function loginUser(credentials) {
     axios
-      .post("http://localhost:8080/login", {
+      .post("http://localhost:5000/login", {
         body: JSON.stringify(credentials),
       })
-      .then((response) => {
+      .then((res) => {
         console.log(response);
       });
   }
@@ -22,7 +22,7 @@ const Login = () => {
       username,
       password,
     });
-    //setToken();
+    setToken(token);
   };
 
   return (
