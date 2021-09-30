@@ -69,7 +69,7 @@ app.get("/logout", (req, res) => {
 /* Create User */
 app.post("create", (req, res) => {
   var newuser = req.body.username
-  dbs.customers.findOne({username: newuser}, (err, userFound) => {
+  db.customers.findOne({username: newuser}, (err, userFound) => {
     if (err) return console.log(err);
     if (userFound) {
       res.send(`Username ${newuser} taken`)
@@ -83,7 +83,7 @@ app.post("create", (req, res) => {
         gender: req.body.gender,
         created_at: new Date().toISOString().split('T')[0]
       }
-      dbs.customers.save((err, data) => {
+      db.customers.save((err, data) => {
         if (err) return console.log(err);
         res.json({username})
       })
@@ -129,3 +129,4 @@ app.post('/checkout', (req, res) => {
   var prodCount = req.body.count
 
 }) 
+*/
