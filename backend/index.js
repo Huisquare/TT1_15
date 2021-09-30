@@ -4,15 +4,25 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const cors = require('cors')
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-mongoose.connect(process.env['MONGO_URI'], { useNewUrlParser: true, useUnifiedTopology: true });
+require('dotenv').config();
+
+
+
+
+/* MongoDB connection */
+const { MongoClient } = require('mongodb');
+const uri = "mongodb+srv://username1:<password>@cluster0.5sq7h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(err => {
+  const db = client.db("dbs");
+  // perform actions on the collection object
+  client.close();
+});
+
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended: false}))
 
-let categories = JSON.parse(require('categories.json'))
-let customers = JSON.parse(require('customers.json'))
-let products = JSON.parse(require('products.json'))
+
 
 app.use(
     session({
@@ -39,3 +49,22 @@ app.get("/logout", (req, res) => {
     res.redirect("/login");
   });
 
+/* Create User */
+app.post("create", (req, res) => {
+  var newuser = req.body.username
+  dbs.customers.findOne({username: newuser}, (err, userFound) => {
+    if (err) return console.log(err);
+    if (userFound) {
+      res.send('Username taken')
+    } else {
+      const data = {
+        username: req.body.username,
+
+      }
+      dbs.customers.save((err, data) => {
+        if (err) return console.log(err);
+        res.json({username})
+      })
+    }
+  })
+})
