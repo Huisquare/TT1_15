@@ -14,11 +14,17 @@ import Login from "./components/Login.js";
 import NavBar from "./components/Navbar";
 import ShoppingCart from "./components/shoppingcart";
 import Home from "./components/home";
+import useToken from "./components/useToken";
 
 function App() {
+  const { token, setToken } = useToken();
+
+  if (!token) {
+    return <Login setToken={setToken} />;
+  }
+
   return (
     <div className="App">
-      <h1>Application</h1>
       <Router>
         <NavBar />
         <Switch>
