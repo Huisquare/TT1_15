@@ -44,7 +44,7 @@ passport.use(new LocalStrategy(
 
 /* MongoDB connection */
 const { MongoClient } = require('mongodb');
-const uri = "mongodb+srv://username1:<password>@cluster0.5sq7h.mongodb.net/dbs?retryWrites=true&w=majority";
+const uri = "mongodb+srv://username1:username1password@cluster0.5sq7h.mongodb.net/dbs?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const db = client.db("dbs");
@@ -88,3 +88,36 @@ app.post("create", (req, res) => {
   })
 })
 
+
+let cart = sessionStorage /* Cart would be session storage*/
+
+/*View Shopping Cart*/
+app.get('cart/view', (req, res) => {
+  res.send(sessionStorage)
+})
+
+/*Update Shopping Cart*/
+app.get('cart/update', (req, res) => {
+  /* Would this be necessary if there is add and delete from cart? */
+})
+
+/*Add Shopping Cart*/
+app.post('cart/add', (req, res) => {
+  sessionStorage.push(req.body)
+  res.send(sessionStorage)
+})
+
+/*Delete Shopping Cart*/
+app.get('cart/delete', (req, res) => {
+  sessionStorage = sessionStorage.filter(item => {
+    return item !== req.body;
+  })
+  res.send(sessionStorage)
+})
+
+/* Updating Database upon Checkout */
+app.post('/checkout', (req, res) => {
+  var prodID = req.body.id
+  var prodCount = req.body.count
+
+})
