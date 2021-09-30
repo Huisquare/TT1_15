@@ -1,0 +1,14 @@
+.img{
+	width: 150px;
+}
+
+.card{
+	align-items: center;
+	min-height: 800px;
+	vertical-align: center;
+	padding-top: 10em;
+}
+
+.btn{
+	align-self:baseline;
+}
