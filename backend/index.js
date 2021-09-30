@@ -24,7 +24,7 @@ passport.serializeUser((user, done) => {
 
 /*Delete Session User ID*/
 passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
+  db.customers.findById(id, (err, user) => {
     done(err, user);
   });
 });
@@ -135,3 +135,17 @@ app.post('/checkout', (req, res) => {
 
 }) 
 */
+
+/* View Products */
+app.get("/view/products", (req, res) => {​​​​​  
+  db.products.find({​​​​​}​​​​​).then(products => {​​​​​  
+    res.send(products);  
+  }​​​​​); 
+}​​​​​)
+
+/* View Categories */
+app.get("/view/categories", (req, res) => {​​​​​  
+  db.categories.find({​​​​​}​​​​​).then(categories=> {​​​​​  
+    res.send(categories);  
+  }​​​​​); 
+}​​​​​)
