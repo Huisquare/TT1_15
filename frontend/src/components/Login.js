@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import "../App.css";
 import axios from "axios";
 
-const Login = () => {
+const Login = ({setUser}) => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
   async function loginUser(credentials) {
     axios
       .post("http://localhost:8080/login", {
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentials),
       })
       .then((response) => {
         console.log(response);
@@ -22,7 +22,7 @@ const Login = () => {
       username,
       password,
     });
-    // setToken(token);
+    //setToken();
   };
 
   return (

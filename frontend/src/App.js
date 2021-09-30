@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
@@ -15,9 +15,40 @@ import NavBar from "./components/Navbar";
 import ShoppingCart from "./components/shoppingcart";
 import Home from "./components/home";
 import useToken from "./components/useToken";
+import axios from "axios";
 
 function App() {
   const { token, setToken } = useToken();
+  const [user, setUser] = useState(null)
+  const [products, setProducts] = useState({});
+
+  useEffect(() => {
+    const fetchProducts = () => {
+      axios.get("http://localhost:5000/products").then((res) => {
+        setProducts(res.data);
+      }, []);
+    };
+
+    fetchProducts();
+  }, []);
+  console.log(products);
+
+  if (user == null) {
+    return <Login setUser={setUser} />;
+  }
+
+  const [products, setProducts] = useState({});
+
+  useEffect(() => {
+    const fetchProducts = () => {
+      axios.get("http://localhost:5000/products").then((res) => {
+        setProducts(res.data);
+      }, []);
+    };
+
+    fetchProducts();
+  }, []);
+  console.log(products);
 
   /* if (!token) {
     return <Login setToken={setToken} />;
@@ -28,7 +59,9 @@ function App() {
       <Router>
         <NavBar />
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/">
+            <Home products={products} />
+          </Route>
           <Route path="/cart" component={ShoppingCart}></Route>
         </Switch>
       </Router>
