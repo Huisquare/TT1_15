@@ -10,6 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import LinearProgress from '@mui/material/LinearProgress';
+import { Nav } from "react-bootstrap";
 
 
 export default function CartItems(props) {
@@ -23,7 +24,15 @@ export default function CartItems(props) {
 		const [qty, setQty] = useState(0);
 
     const handleDelete = () => {
-        setDeleteButton(false);
+			let products = [];
+			if (localStorage.getItem("products")) {
+					products = JSON.parse(localStorage.getItem("products"));
+			}
+			products = products.filter(function(obj) {
+				return Number(obj.productId) !== Number(props.productId);
+			});
+			localStorage.setItem("products", JSON.stringify(products));
+      setDeleteButton(false);
     }
 
     const handleOpenDelete = () => {
@@ -35,9 +44,21 @@ export default function CartItems(props) {
     }
 
     const handleEdit = () => {
-				setQty(input.current.value);
-        setEditButton(false);
-    }
+			let products = [];
+			if (localStorage.getItem("products")) {
+					products = JSON.parse(localStorage.getItem("products"));
+			}
+			products = products.filter(function(obj) {
+				return Number(obj.productId) !== Number(props.productId);
+			});
+			const currentValue = input.current.value;
+			for (let i = 0; i < currentValue; i++) {
+				products.push({ productId: Number(props.productId) });
+			}
+			localStorage.setItem("products", JSON.stringify(products));
+			setQty(currentValue);
+			setEditButton(false);
+	}
 
     const handleOpenEdit = () => {
         setEditButton(true);
@@ -51,13 +72,14 @@ export default function CartItems(props) {
 			setQty(props.qty);
 		}, [inputQty]);
 
-    const price = "109.95";
+    const price = props.price;
     const productId = props.productId;
+		const name = props.name;
 
     return (
         <Container style={{ 'display': 'flex', 'flexDirection': 'row', 'padding': '25px 0px 25px 0px' }}>
             <Container style={{ 'display': 'flex', 'flexDirection': 'column' }}>
-                <Typography variant="h6" style={{ 'textAlign': 'left' }}>{productId}</Typography>
+                <Typography variant="h6" style={{ 'textAlign': 'left' }}>{name}</Typography>
                 <Typography variant="h6" style={{ 'textAlign': 'left' }}>${price}</Typography>
             </Container>
             <Container style={{ 'display': 'flex', 'flexDirection': 'row', 'justifyContent': 'flex-end' }}>
@@ -125,7 +147,7 @@ export default function CartItems(props) {
                             Cancel
                         </Button>
                         <Button onClick={handleDelete} color="primary">
-                            Ok
+													<Nav.Link href="/cart">Ok</Nav.Link>
                         </Button>
                     </DialogActions>
                 </Dialog>
