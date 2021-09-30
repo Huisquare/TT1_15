@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import products from "../products.json";
 import { Col, Card, Row, Button } from "react-bootstrap";
 import './home.css';
 
-const Home = () => {
+const Home = ({products}) => {
   const addToCart = (id) => {
     let products = [];
     if (localStorage.getItem("products")) {
@@ -41,7 +40,7 @@ const Home = () => {
                                       <Button
                                           variant="primary btn-lg"
                                           onClick={() =>
-                                              addToCart(product.imageid)
+                                              addToCart(product.id)
                                           }
                                           className="btn"
                                       >
