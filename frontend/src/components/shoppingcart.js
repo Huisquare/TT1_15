@@ -66,8 +66,8 @@ export default function ShoppingCart() {
                         <CartItems
                             key={index}
                             productId={dataItem.productId}
-                            name={data[dataItem.productId].title}
-                            price={data[dataItem.productId].price}
+                            name={data[dataItem.productId-1].title}
+                            price={data[dataItem.productId-1].price}
                             qty={dataItem.qty}
                         />
                     ))}
