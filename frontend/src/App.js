@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import Login from "./components/Login.js";
 import Navbar from "./components/Navbar";
+import ShoppingCart from "./components/shoppingcart";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         <Switch>
           <Route exact path="/" render={() => <h1>Shopping page</h1> } />
           <Route path="/login" component={Login}></Route>
+          <Route path="/cart" component={ShoppingCart}></Route>
         </Switch>
       </Router>
     </div>
