@@ -9,10 +9,13 @@ const bodyParser = require("body-parser");
 
 /*Saving Session*/
 app.use(express.static("public"));
-app.use(session({ secret: "dbs" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(session({
+  secret: 'dbs',
+  resave: true,
+  saveUninitialized: true
+}));
 
 /*Save Session User ID*/
 passport.serializeUser((user, done) => {
@@ -88,26 +91,30 @@ app.post("create", (req, res) => {
   })
 })
 
-
+/*
 let cart = sessionStorage /* Cart would be session storage*/
 
-/*View Shopping Cart*/
+/*View Shopping Cart*/ 
+/*
 app.get('cart/view', (req, res) => {
   res.send(sessionStorage)
 })
 
-/*Update Shopping Cart*/
+/*Update Shopping Cart*/ 
+/*
 app.get('cart/update', (req, res) => {
-  /* Would this be necessary if there is add and delete from cart? */
+
 })
 
-/*Add Shopping Cart*/
+/*Add Shopping Cart*/ 
+/*
 app.post('cart/add', (req, res) => {
   sessionStorage.push(req.body)
   res.send(sessionStorage)
 })
 
-/*Delete Shopping Cart*/
+/*Delete Shopping Cart*/ 
+/*
 app.get('cart/delete', (req, res) => {
   sessionStorage = sessionStorage.filter(item => {
     return item !== req.body;
@@ -115,9 +122,10 @@ app.get('cart/delete', (req, res) => {
   res.send(sessionStorage)
 })
 
-/* Updating Database upon Checkout */
+/* Updating Database upon Checkout */ 
+/*
 app.post('/checkout', (req, res) => {
   var prodID = req.body.id
   var prodCount = req.body.count
 
-})
+}) 
