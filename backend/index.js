@@ -7,6 +7,11 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require("express-session");
 const bodyParser = require("body-parser");
 
+/* Local JSON */
+var categories = require('categories.json')
+var customers = require('customers.json')
+var products = require('products.json')
+
 /*Saving Session*/
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,7 +29,7 @@ passport.serializeUser((user, done) => {
 
 /*Delete Session User ID*/
 passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
+  customers.findById(id, (err, user) => {
     done(err, user);
   });
 });
@@ -32,7 +37,7 @@ passport.deserializeUser((id, done) => {
 /*Passport Authentication*/
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    db.customers.findOne({ username: username }, (err, user) => {
+    customers.findOne({ username: username }, (err, user) => {
       if (err) { return done(err); }
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
@@ -45,15 +50,17 @@ passport.use(new LocalStrategy(
   }
 ));
 
-/* MongoDB connection */
+/* MongoDB connection 
 const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://username1:username1password@cluster0.5sq7h.mongodb.net/dbs?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
-  const db = client.db("dbs");
+  const db = client.db("dbs").collection("categories");
+  console.log(db)
   // perform actions on the collection object
   client.close();
 });
+*/
 
 /* Login Function */
 app.post('/login',
@@ -69,7 +76,7 @@ app.get("/logout", (req, res) => {
 /* Create User */
 app.post("create", (req, res) => {
   var newuser = req.body.username
-  db.customers.findOne({username: newuser}, (err, userFound) => {
+  customers.findOne({username: newuser}, (err, userFound) => {
     if (err) return console.log(err);
     if (userFound) {
       res.send(`Username ${newuser} taken`)
@@ -83,7 +90,7 @@ app.post("create", (req, res) => {
         gender: req.body.gender,
         created_at: new Date().toISOString().split('T')[0]
       }
-      db.customers.save((err, data) => {
+      customers.push((err, data) => {
         if (err) return console.log(err);
         res.json({username})
       })
@@ -135,3 +142,18 @@ app.post('/checkout', (req, res) => {
 
 }) 
 */
+
+/* View Products */
+app.get("/view/products", (req, res) => {
+  console.log('product')
+  products.find({}).then(prod => {
+  res.send(prod);
+  });
+ })
+
+/* View Categories */
+app.get("/view/categories", (req, res) => {
+  categories.find({}).then(cat => {
+  res.send(cat);
+  });
+ })
