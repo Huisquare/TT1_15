@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+app.use(cors({
+  origin: '*'
+}));
 require("dotenv").config();
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
