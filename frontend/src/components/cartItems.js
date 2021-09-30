@@ -10,6 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import LinearProgress from '@mui/material/LinearProgress';
+import { Nav } from "react-bootstrap";
 
 
 export default function CartItems(props) {
@@ -23,7 +24,15 @@ export default function CartItems(props) {
 		const [qty, setQty] = useState(0);
 
     const handleDelete = () => {
-        setDeleteButton(false);
+			let products = [];
+			if (localStorage.getItem("products")) {
+					products = JSON.parse(localStorage.getItem("products"));
+			}
+			products = products.filter(function(obj) {
+				return Number(obj.productId) !== Number(props.productId);
+			});
+			localStorage.setItem("products", JSON.stringify(products));
+      setDeleteButton(false);
     }
 
     const handleOpenDelete = () => {
@@ -35,9 +44,21 @@ export default function CartItems(props) {
     }
 
     const handleEdit = () => {
-				setQty(input.current.value);
-        setEditButton(false);
-    }
+			let products = [];
+			if (localStorage.getItem("products")) {
+					products = JSON.parse(localStorage.getItem("products"));
+			}
+			products = products.filter(function(obj) {
+				return Number(obj.productId) !== Number(props.productId);
+			});
+			const currentValue = input.current.value;
+			for (let i = 0; i < currentValue; i++) {
+				products.push({ productId: Number(props.productId) });
+			}
+			localStorage.setItem("products", JSON.stringify(products));
+			setQty(currentValue);
+			setEditButton(false);
+	}
 
     const handleOpenEdit = () => {
         setEditButton(true);
@@ -125,7 +146,7 @@ export default function CartItems(props) {
                             Cancel
                         </Button>
                         <Button onClick={handleDelete} color="primary">
-                            Ok
+													<Nav.Link href="/cart">Ok</Nav.Link>
                         </Button>
                     </DialogActions>
                 </Dialog>
