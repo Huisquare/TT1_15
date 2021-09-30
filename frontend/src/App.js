@@ -11,7 +11,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import Login from "./components/Login.js";
-import Navbar from "./components/Navbar";
+import NavBar from "./components/Navbar";
 import ShoppingCart from "./components/shoppingcart";
 import Home from "./components/home";
 
@@ -20,7 +20,7 @@ function App() {
     <div className="App">
       <h1>Application</h1>
       <Router>
-        <Navbar />
+        <NavBar />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login}></Route>
