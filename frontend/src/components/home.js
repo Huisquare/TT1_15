@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import products from "../products.json";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -13,13 +13,26 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 
 const Home = () => {
+  const addToCart = (id) => {
+    let products = [];
+    if (localStorage.getItem("products")) {
+      products = JSON.parse(localStorage.getItem("products"));
+    }
+    products.push({ productId: id });
+    localStorage.setItem("products", JSON.stringify(products));
+  };
   return (
-    <div>
+    <>
       <h1>All Products</h1>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-          {products.map((product) => {
-            return (
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-around"
+        alignItems="flex-start"
+      >
+        {products.map((product) => {
+          return (
+            <Grid item xs={6} key={product.id}>
               <Card sx={{ maxWidth: 345 }}>
                 <CardHeader title={product.title} />
                 <CardMedia
@@ -29,19 +42,21 @@ const Home = () => {
                   image={product.image}
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="body2" component="div">
                     {product.description}
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">Add To Cart</Button>
+                  <Button size="small" onClick={() => addToCart(product.id)}>
+                    Add To Cart
+                  </Button>
                 </CardActions>
               </Card>
-            );
-          })}
-        </Grid>
-      </Box>
-    </div>
+            </Grid>
+          );
+        })}
+      </Grid>
+    </>
   );
 };
 
