@@ -1,24 +1,134 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import LinearProgress from '@mui/material/LinearProgress';
 
 
 export default function CartItems(props) {
-    // const title = props.title;
-    // const price = props.price;
-    const title = "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops";
+
+    const [editButton, setEditButton] = useState(false);
+    const [deleteButton, setDeleteButton] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
+		const [errorMsg, setErrorMsg] = useState("");
+		const input = useRef("");
+		const [inputQty, setInputQty] = useState(0);
+		const [qty, setQty] = useState(0);
+
+    const handleDelete = () => {
+        setDeleteButton(false);
+    }
+
+    const handleOpenDelete = () => {
+        setDeleteButton(true);
+    }
+
+    const handleCloseDelete = () => {
+        setDeleteButton(false);
+    }
+
+    const handleEdit = () => {
+				setQty(input.current.value);
+        setEditButton(false);
+    }
+
+    const handleOpenEdit = () => {
+        setEditButton(true);
+    }
+
+    const handleCloseEdit = () => {
+        setEditButton(false);
+    }
+
+		useEffect(() => {
+			setQty(props.qty);
+		}, [inputQty]);
+
     const price = "109.95";
-    var quantity = 1;
+    const productId = props.productId;
+
     return (
         <Container style={{ 'display': 'flex', 'flexDirection': 'row', 'padding': '25px 0px 25px 0px' }}>
             <Container style={{ 'display': 'flex', 'flexDirection': 'column' }}>
-                <Typography variant="h6" style={{ 'textAlign': 'left' }}>{title}</Typography>
+                <Typography variant="h6" style={{ 'textAlign': 'left' }}>{productId}</Typography>
                 <Typography variant="h6" style={{ 'textAlign': 'left' }}>${price}</Typography>
             </Container>
             <Container style={{ 'display': 'flex', 'flexDirection': 'row', 'justifyContent': 'flex-end' }}>
-                <Typography variant="h6" style={{ 'textAlign': 'right', 'paddingRight': '10px' }}>{quantity}</Typography>
-                <Button variant="contained" style={{maxWidth: '60px', maxHeight: '35px', minWidth: '60px', minHeight: '35px'}}>Edit</Button>
+                <Typography variant="h6" style={{ 'textAlign': 'right', 'paddingRight': '10px' }}>{qty}</Typography>
+                <Button
+                    onClick={() => handleOpenEdit()}
+                    variant="contained"
+                    style={{ maxWidth: '60px', maxHeight: '35px', minWidth: '60px', minHeight: '35px' }}
+                >Edit</Button>
+                <Dialog open={editButton} onClose={() => handleCloseEdit()}
+                    BackdropProps={{ style: { backgroundColor: "rgba(0, 0, 0, 0.5)" } }}
+                    PaperProps={{ style: { boxShadow: "none", overflow: "hidden" } }}
+                >
+                    <DialogTitle id="form-dialog-title">Edit item</DialogTitle>
+										<br/>
+                    <DialogContent>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <TextField
+                                autoFocus
+                                id="outlined-number"
+                                label="Quantity"
+																type="number"
+                                inputRef={input}
+																defaultValue={qty}
+                            />
+                            <Typography color="secondary" variant="subtitle2"><br />{errorMsg}</Typography>
+                            {submitLoading ?
+                                <Box sx={{ width: '100%' }}>
+                                    <LinearProgress color="secondary" />
+                                </Box> : <></>}
+                        </div>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseEdit} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={handleEdit} color="primary">
+                            Ok
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Button
+                    onClick={() => handleOpenDelete()}
+                    variant="contained"
+                    style={{ maxWidth: '70px', maxHeight: '35px', minWidth: '70px', minHeight: '35px' }}
+                >Delete</Button>
+                <Dialog open={deleteButton} onClose={() => handleCloseDelete()}
+                    BackdropProps={{ style: { backgroundColor: "rgba(0, 0, 0, 0.5)" } }}
+                    PaperProps={{ style: { boxShadow: "none", overflow: "hidden" } }}
+                >
+                    <DialogTitle id="form-dialog-title">Delete item</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Confirm delete?
+                        </DialogContentText>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            {submitLoading ?
+                                <Box sx={{ width: '100%' }}>
+                                    <LinearProgress color="secondary" />
+                                </Box> : <></>}
+                        </div>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDelete} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={handleDelete} color="primary">
+                            Ok
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Container>
         </Container>
     );
