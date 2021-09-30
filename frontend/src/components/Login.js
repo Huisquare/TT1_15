@@ -2,19 +2,17 @@ import React, { useState } from "react";
 import "../App.css";
 import axios from "axios";
 
-const Login = () => {
+const Login = ({ setToken }) => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
-  async function loginUser(credentials) {
-    axios
+  const loginUser = async (credentials) => {
+    return axios
       .post("http://localhost:5000/login", {
         body: JSON.stringify(credentials),
       })
-      .then((res) => {
-        console.log(response);
-      });
-  }
+      .then((res) => res.data);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

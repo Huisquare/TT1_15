@@ -8,6 +8,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+app.use(cors());
 /*Saving Session*/
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -75,15 +76,15 @@ mongoose
 app.post("/login", (req, res) => {
   var user = req.body.username;
   var pass = req.body.password;
-  db.customers.findOne({username: user}, (err, userFound) => {
+  db.customers.findOne({ username: user }, (err, userFound) => {
     if (err) return console.log(err);
     if (userFound) {
       if (pass === userFound.password) {
-        res.send({token: 'random'})
+        res.send({ token: "random" });
       }
     }
-  })
-})
+  });
+});
 
 /* Logout Function */
 app.get("/logout", (req, res) => {
@@ -120,55 +121,53 @@ app.post("create", (req, res) => {
   console.log("Your app is listening on port " + listener.address().port);
 }); */
 
-
-
-
 /*View Shopping Cart*/
 
-app.get('cart/view', (req, res) => {
-  res.send(sessionStorage)
-})
+app.get("cart/view", (req, res) => {
+  res.send(sessionStorage);
+});
 
 /*Update Shopping Cart*/
 
-app.get('cart/update', (req, res) => {
-
-})
+app.get("cart/update", (req, res) => {});
 
 /*Add Shopping Cart*/
 
-app.post('cart/add', (req, res) => {
-  sessionStorage.push(req.body)
-  res.send(sessionStorage)
-})
+app.post("cart/add", (req, res) => {
+  sessionStorage.push(req.body);
+  res.send(sessionStorage);
+});
 
 /*Delete Shopping Cart*/
 
-app.get('cart/delete', (req, res) => {
-  sessionStorage = sessionStorage.filter(item => {
+app.get("cart/delete", (req, res) => {
+  sessionStorage = sessionStorage.filter((item) => {
     return item !== req.body;
-  })
-  res.send(sessionStorage)
-})
+  });
+  res.send(sessionStorage);
+});
 
 /* Updating Database upon Checkout */
-app.post('/checkout', (req, res) => {
-  var prodID = req.body.id
-  var prodCount = req.body.count
+app.post("/checkout", (req, res) => {
+  var prodID = req.body.id;
+  var prodCount = req.body.count;
 
   var quantity = (prodID, done) => {
-    db.products.findByID({id: prodID}, (err, found) => {
+    db.products.findByID({ id: prodID }, (err, found) => {
       if (err) return console.log(err);
-    })
-  }
+    });
+  };
 
   db.product.findOneAndUpdate(
-    {id: prodID}, {qty: quantity}, {new: true}, (err, updated) => {
+    { id: prodID },
+    { qty: quantity },
+    { new: true },
+    (err, updated) => {
       if (err) return console.log(err);
       done(null, updated);
-    })
-}) 
-
+    }
+  );
+});
 
 /* View Products */
 app.get("/view/products", (req, res) => {
@@ -201,11 +200,10 @@ app.get("/products", (req, res) => {
   res.send(JSON.stringify(productData));
 });
 
-
 /*get product id*/
 app.get("/productID", (req, res) => {
   db.products.findById(req.id, (err, product) => {
     if (err) return console.log(err);
     done(null, product);
-  })
-})
+  });
+});
