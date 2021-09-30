@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CartItems from './cartItems';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import data from "../products.json";
 
 export default function ShoppingCart() {
 
@@ -39,10 +40,14 @@ export default function ShoppingCart() {
             :<>
             <Typography variant="h3" style={{ 'textAlign': 'left', 'paddingLeft': '50px' }}>ShoppingCart</Typography>
             {list.map((dataItem, index) => (
-                <CartItems key={index} productId={dataItem.productId} qty={dataItem.qty}/>    
+                <CartItems 
+                    key={index} 
+                    productId={dataItem.productId} 
+                    name={data[dataItem.productId].title}
+                    price={data[dataItem.productId].price}
+                    qty={dataItem.qty}
+                />    
             ))}
-            
-
             <Button variant="contained">Checkout</Button>
             </>}
         </div>

@@ -72,13 +72,14 @@ export default function CartItems(props) {
 			setQty(props.qty);
 		}, [inputQty]);
 
-    const price = "109.95";
+    const price = props.price;
     const productId = props.productId;
+		const name = props.name;
 
     return (
         <Container style={{ 'display': 'flex', 'flexDirection': 'row', 'padding': '25px 0px 25px 0px' }}>
             <Container style={{ 'display': 'flex', 'flexDirection': 'column' }}>
-                <Typography variant="h6" style={{ 'textAlign': 'left' }}>{productId}</Typography>
+                <Typography variant="h6" style={{ 'textAlign': 'left' }}>{name}</Typography>
                 <Typography variant="h6" style={{ 'textAlign': 'left' }}>${price}</Typography>
             </Container>
             <Container style={{ 'display': 'flex', 'flexDirection': 'row', 'justifyContent': 'flex-end' }}>
