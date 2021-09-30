@@ -10,7 +10,6 @@ const NavBar = () => {
           <Navbar.Brand href="/">ShopNow</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/login">Login</Nav.Link>
             <Nav.Link href="/cart">Shopping Cart</Nav.Link>
           </Nav>
         </Container>

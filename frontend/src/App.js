@@ -19,9 +19,9 @@ import useToken from "./components/useToken";
 function App() {
   const { token, setToken } = useToken();
 
-  if (!token) {
+  /* if (!token) {
     return <Login setToken={setToken} />;
-  }
+  } */
 
   return (
     <div className="App">
@@ -29,7 +29,6 @@ function App() {
         <NavBar />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login}></Route>
           <Route path="/cart" component={ShoppingCart}></Route>
         </Switch>
       </Router>

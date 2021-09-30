@@ -24,7 +24,7 @@ passport.serializeUser((user, done) => {
 
 /*Delete Session User ID*/
 passport.deserializeUser((id, done) => {
-  db.customers.findById(id, (err, user) => {
+  customers.findById(id, (err, user) => {
     done(err, user);
   });
 });
@@ -51,9 +51,11 @@ const uri = "mongodb+srv://username1:username1password@cluster0.5sq7h.mongodb.ne
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const db = client.db("dbs");
+  console.log(db)
   // perform actions on the collection object
   client.close();
 });
+
 
 /* Login Function */
 app.post('/login',
@@ -83,7 +85,7 @@ app.post("create", (req, res) => {
         gender: req.body.gender,
         created_at: new Date().toISOString().split('T')[0]
       }
-      db.customers.save((err, data) => {
+      db.customers.push((err, data) => {
         if (err) return console.log(err);
         res.json({username})
       })
@@ -138,14 +140,32 @@ app.post('/checkout', (req, res) => {
 
 /* View Products */
 app.get("/view/products", (req, res) => {
-  db.products.find({}).then(products => {
-  res.send(products);
+  console.log('product')
+  db.products.find({}).then(prod => {
+  res.send(prod);
   });
  })
 
 /* View Categories */
 app.get("/view/categories", (req, res) => {
-  db.categories.find({}).then(categories => {
-  res.send(categories);
+  db.categories.find({}).then(cat => {
+  res.send(cat);
   });
  })
+
+ 
+ const data = require("./categories.json");
+
+ /*return categories*/
+ app.get("/categories", (req, res) => {
+     res.header("Content-Type", "application/json");
+     res.send(JSON.stringify(data));
+ });
+
+ const productData = require("./products.json");
+
+ /*return products*/
+ app.get("/products", (req, res) => {
+     res.header("Content-Type", "application/json");
+     res.send(JSON.stringify(productData));
+ });
