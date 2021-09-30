@@ -126,7 +126,7 @@ app.post("create", (req, res) => {
 /*View Shopping Cart*/
 
 app.get('cart/view', (req, res) => {
-  res.send(sessionStorage)
+  res.send(req.body)
 })
 
 /*Update Shopping Cart*/
@@ -138,17 +138,15 @@ app.get('cart/update', (req, res) => {
 /*Add Shopping Cart*/
 
 app.post('cart/add', (req, res) => {
-  sessionStorage.push(req.body)
-  res.send(sessionStorage)
+  res.send(req.body)
 })
 
 /*Delete Shopping Cart*/
-
 app.get('cart/delete', (req, res) => {
-  sessionStorage = sessionStorage.filter(item => {
+  var cart  = req.body.filter(item => {
     return item !== req.body;
   })
-  res.send(sessionStorage)
+  res.send(cart)
 })
 
 /* Updating Database upon Checkout */
@@ -159,8 +157,11 @@ app.post('/checkout', (req, res) => {
   var quantity = (prodID, done) => {
     db.products.findByID({id: prodID}, (err, found) => {
       if (err) return console.log(err);
+      done(null, found.qty)
     })
   }
+
+  quantity -= prodCount
 
   db.product.findOneAndUpdate(
     {id: prodID}, {qty: quantity}, {new: true}, (err, updated) => {
