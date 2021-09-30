@@ -19,6 +19,23 @@ import axios from "axios";
 
 function App() {
   const { token, setToken } = useToken();
+  const [user, setUser] = useState(null)
+  const [products, setProducts] = useState({});
+
+  useEffect(() => {
+    const fetchProducts = () => {
+      axios.get("http://localhost:5000/products").then((res) => {
+        setProducts(res.data);
+      }, []);
+    };
+
+    fetchProducts();
+  }, []);
+  console.log(products);
+
+  if (user == null) {
+    return <Login setUser={setUser} />;
+  }
 
   const [products, setProducts] = useState({});
 

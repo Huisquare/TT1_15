@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../App.css";
 import axios from "axios";
 
-const Login = () => {
+const Login = ({setUser}) => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
