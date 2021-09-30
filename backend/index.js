@@ -186,3 +186,12 @@ app.get("/products", (req, res) => {
   res.header("Content-Type", "application/json");
   res.send(JSON.stringify(productData));
 });
+
+
+/*get product id*/
+app.get("/productID", (req, res) => {
+  db.products.findById(req.id, (err, product) => {
+    if (err) return console.log(err);
+    done(null, product);
+  })
+})
