@@ -22,7 +22,7 @@ const Home = () => {
     localStorage.setItem("products", JSON.stringify(products));
   };
   return (
-    <>
+    <div>
       <h1>All Products</h1>
       <Grid
         container
@@ -56,7 +56,7 @@ const Home = () => {
           );
         })}
       </Grid>
-    </>
+    </div>
   );
 };
 
