@@ -18,10 +18,11 @@ import useToken from "./components/useToken";
 
 function App() {
   const { token, setToken } = useToken();
+  const [user, setUser] = useState(null)
 
-  /* if (!token) {
-    return <Login setToken={setToken} />;
-  } */
+  if (user == null) {
+    return <Login setUser={setUser} />;
+  }
 
   return (
     <div className="App">
