@@ -137,15 +137,15 @@ app.post('/checkout', (req, res) => {
 */
 
 /* View Products */
-app.get("/view/products", (req, res) => {​​​​​  
-  db.products.find({​​​​​}​​​​​).then(products => {​​​​​  
-    res.send(products);  
-  }​​​​​); 
-}​​​​​)
+app.get("/view/products", (req, res) => {
+  db.products.find({}).then(products => {
+  res.send(products);
+  });
+ })
 
 /* View Categories */
-app.get("/view/categories", (req, res) => {​​​​​  
-  db.categories.find({​​​​​}​​​​​).then(categories=> {​​​​​  
-    res.send(categories);  
-  }​​​​​); 
-}​​​​​)
+app.get("/view/categories", (req, res) => {
+  db.categories.find({}).then(categories => {
+  res.send(categories);
+  });
+ })
